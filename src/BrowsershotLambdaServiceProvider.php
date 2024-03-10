@@ -5,6 +5,7 @@ namespace Propaganistas\BrowsershotLambda;
 use Aws\Lambda\Exception\LambdaException;
 use Aws\Lambda\LambdaClient;
 use Aws\Middleware;
+use Exception;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Spatie\LaravelPdf\Facades\Pdf;
@@ -22,10 +23,17 @@ class BrowsershotLambdaServiceProvider extends ServiceProvider
         $this->app->singleton('lambda.pdf', function() {
             $config = $this->app['config']->get('browsershot_lambda', []);
 
+            $region = str($config['arn'])->after('arn:aws:lambda:')->before(':')->toString();
+            $credentials = $config['credentials'];
+
+            throw_unless($region && $region !== $config['arn'], new Exception('AWS region could not be determined'));
+            throw_unless($credentials['key'], 'AWS Access Key is empty');
+            throw_unless($credentials['secret'], 'AWS Access Secret is empty');
+
             $client = new LambdaClient([
                 'version' => 'latest',
-                'region' => str($config['arn'])->after('arn:aws:lambda:')->before(':')->toString(),
-                'credentials' => array_filter($config['credentials']),
+                'region' => $region,
+                'credentials' => $credentials,
             ]);
 
             // Add a middleware that will retry all requests provided the response
