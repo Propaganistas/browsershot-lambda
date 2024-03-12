@@ -8,6 +8,8 @@ use Aws\Middleware;
 use Exception;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
+use Spatie\LaravelPdf\Enums\Format;
+use Spatie\LaravelPdf\Enums\Unit;
 use Spatie\LaravelPdf\Facades\Pdf;
 
 class BrowsershotLambdaServiceProvider extends ServiceProvider
@@ -66,7 +68,9 @@ class BrowsershotLambdaServiceProvider extends ServiceProvider
         ], 'config');
 
         if ($this->app['config']->get('browsershot_lambda.default')) {
-            Pdf::default()->onLambda();
+            Pdf::default()->onLambda()->margins(0.4, 0.4, 0.4, 0.4, Unit::Inch)->format(Format::A4);
+        } else {
+            Pdf::default()->margins(0.4, 0.4, 0.4, 0.4, Unit::Inch)->format(Format::A4);
         }
     }
 }
