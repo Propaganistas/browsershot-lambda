@@ -1,5 +1,8 @@
 {
   "name": "propaganistas/browsershot-lambda",
+  "conflict": {
+    "wnx/sidecar-browsershot": "*"
+  },
   "require": {
     "php": "^8.0",
     "aws/aws-sdk-php": "^3.300",
