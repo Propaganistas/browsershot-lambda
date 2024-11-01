@@ -12,13 +12,6 @@ use Spatie\Browsershot\ChromiumResult;
 
 class BrowsershotLambda extends Browsershot
 {
-    public function base64pdf(): string
-    {
-        $command = $this->createPdfCommand();
-
-        return $this->callBrowser($command);
-    }
-
     protected function callBrowser(array $command): string
     {
         $output = $this->invokeLambda($command);
