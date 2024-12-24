@@ -11,7 +11,7 @@
     "illuminate/filesystem": "^10.0|^11.0",
     "illuminate/support": "^10.0|^11.0",
     "spatie/laravel-pdf": "^1.4",
-    "spatie/browsershot": "^4.0.0"
+    "spatie/browsershot": "^5.0.3"
   },
   "autoload": {
     "psr-4": {
