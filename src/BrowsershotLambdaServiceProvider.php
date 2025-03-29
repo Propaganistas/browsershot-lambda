@@ -11,6 +11,7 @@ use Illuminate\Support\Str;
 use Spatie\LaravelPdf\Enums\Format;
 use Spatie\LaravelPdf\Enums\Unit;
 use Spatie\LaravelPdf\Facades\Pdf;
+use Spatie\LaravelPdf\PdfFactory;
 
 class BrowsershotLambdaServiceProvider extends ServiceProvider
 {
@@ -59,6 +60,17 @@ class BrowsershotLambdaServiceProvider extends ServiceProvider
 
             return $client;
         });
+
+        // @see https://github.com/spatie/laravel-pdf/issues/107#issuecomment-2760950993
+        Pdf::resolved(function (PdfFactory $factory) {
+            $instance = $factory->default()
+                ->margins(0.4, 0.4, 0.4, 0.4, Unit::Inch)
+                ->format(Format::A4);
+
+            if ($this->app['config']->get('browsershot_lambda.default')) {
+                $instance->onLambda();
+            }
+        });
     }
 
     public function boot(): void
@@ -66,11 +78,5 @@ class BrowsershotLambdaServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/../config/config.php' => $this->app->configPath('browsershot_lambda.php'),
         ], 'config');
-
-        if ($this->app['config']->get('browsershot_lambda.default')) {
-            Pdf::default()->onLambda()->margins(0.4, 0.4, 0.4, 0.4, Unit::Inch)->format(Format::A4);
-        } else {
-            Pdf::default()->margins(0.4, 0.4, 0.4, 0.4, Unit::Inch)->format(Format::A4);
-        }
     }
 }
