@@ -43,7 +43,7 @@ class BrowsershotLambda extends Browsershot
         $payload = json_decode((string) $response->get('Payload'), true);
         $body = is_string($payload) ? json_decode($payload, true) : $payload;
 
-        throw_if($response->get('FunctionError') !== '', $this->convertToException($body));
+        throw_if(! empty($response->get('FunctionError')), $this->convertToException($body));
 
         $this->chromiumResult = new ChromiumResult($body);
 
