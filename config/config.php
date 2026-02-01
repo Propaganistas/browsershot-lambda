@@ -1,8 +1,6 @@
 <?php
 
 return [
-    'default' => env('PDF_LAMBDA_DEFAULT', true),
-
     'arn' => env('PDF_LAMBDA_ARN'),
 
     'credentials' => [

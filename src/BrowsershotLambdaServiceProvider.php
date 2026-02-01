@@ -60,17 +60,6 @@ class BrowsershotLambdaServiceProvider extends ServiceProvider
 
             return $client;
         });
-
-        // @see https://github.com/spatie/laravel-pdf/issues/107#issuecomment-2760950993
-        Pdf::resolved(function (PdfFactory $factory) {
-            $instance = $factory->default()
-                ->margins(0.4, 0.4, 0.4, 0.4, Unit::Inch)
-                ->format(Format::A4);
-
-            if ($this->app['config']->get('browsershot_lambda.default')) {
-                $instance->onLambda();
-            }
-        });
     }
 
     public function boot(): void
