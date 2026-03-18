@@ -8,10 +8,6 @@ use Aws\Middleware;
 use Exception;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
-use Spatie\LaravelPdf\Enums\Format;
-use Spatie\LaravelPdf\Enums\Unit;
-use Spatie\LaravelPdf\Facades\Pdf;
-use Spatie\LaravelPdf\PdfFactory;
 
 class BrowsershotLambdaServiceProvider extends ServiceProvider
 {
